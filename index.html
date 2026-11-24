@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#b51219">
+  <meta name="description" content="Encontre, leia e organize documentos em PDF no FacilitaPDFS.">
+  <title>FacilitaPDFS — documentos ao seu alcance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="FacilitaPDFS, página inicial">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 36"><path d="M7 2h12l8 8v23H7a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3Z"/><path d="M19 2v8h8M10 17h13M10 22h13M10 27h9"/></svg></span>
+      <span>Facilita<span class="brand-red">PDFS</span></span>
+    </a>
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a href="#inicio" data-page="inicio" class="nav-link active"><span aria-hidden="true">⌂</span> Início</a>
+      <a href="#categorias" data-page="categorias" class="nav-link"><span aria-hidden="true">▦</span> Categorias</a>
+      <a href="#favoritos" data-page="favoritos" class="nav-link"><span aria-hidden="true">♡</span> Favoritos <span class="favorite-count" id="favorite-count" hidden>0</span></a>
+      <button class="nav-link upload-nav" id="open-upload"><span aria-hidden="true">＋</span> Enviar PDF</button>
+    </nav>
+    <button class="mobile-upload" id="open-upload-mobile" aria-label="Enviar PDF">＋</button>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="hero" id="hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-dot"></span> SUA BIBLIOTECA, MAIS SIMPLES</p>
+        <h1>Conhecimento bom<br>é conhecimento <span>acessível.</span></h1>
+        <p class="hero-description">Encontre materiais, receitas e ideias em PDF. Pesquise, leia e guarde o que importa para você.</p>
+        <form class="search-form" id="search-form" role="search">
+          <label class="sr-only" for="search-input">O que você está procurando?</label>
+          <span class="search-symbol" aria-hidden="true">⌕</span>
+          <input id="search-input" type="search" placeholder="Busque por título, assunto ou palavra-chave" autocomplete="off" aria-autocomplete="list" aria-controls="search-suggestions">
+          <button type="submit" class="search-button"><span class="search-button-label">Buscar</span><span aria-hidden="true">⌕</span></button>
+          <ul class="suggestions" id="search-suggestions" role="listbox" hidden></ul>
+        </form>
+        <div class="popular-searches"><span>Em alta:</span><button data-search="receitas">Receitas</button><button data-search="estudos">Estudos</button><button data-search="história">História</button></div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
+        <div class="art-note note-top">✳ Fácil de encontrar</div>
+        <div class="pdf-sheet"><div class="sheet-fold"></div><div class="pdf-icon">PDF</div><div class="sheet-line long"></div><div class="sheet-line"></div><div class="sheet-line short"></div><div class="sheet-tag">LEITURA LIVRE</div></div>
+        <div class="art-note note-bottom"><span class="note-heart">♥</span> Feito para descobrir</div>
+        <span class="art-spark spark-one">✳</span><span class="art-spark spark-two">✦</span>
+      </div>
+    </section>
+
+    <section class="content-section category-section" id="category-section" aria-labelledby="category-heading">
+      <div class="section-heading"><div><p class="eyebrow section-eyebrow">EXPLORE POR ASSUNTO</p><h2 id="category-heading">O que você quer descobrir?</h2></div><a class="text-link" href="#categorias" data-page-link="categorias">Ver todas <span aria-hidden="true">→</span></a></div>
+      <div class="category-grid" id="category-grid"></div>
+    </section>
+
+    <section class="content-section library-section" id="library-section" aria-labelledby="library-heading">
+      <div class="section-heading library-heading"><div><p class="eyebrow section-eyebrow" id="library-eyebrow">SELECIONADOS PARA VOCÊ</p><h2 id="library-heading">PDFs para inspirar sua próxima ideia</h2><p id="results-summary" class="results-summary" hidden></p></div><div class="library-controls"><label class="sr-only" for="category-filter">Filtrar por categoria</label><select id="category-filter"><option value="Todas">Todas as categorias</option></select><button class="sort-button" id="sort-button" type="button" aria-label="Ordenar resultados">↕ <span>Mais relevantes</span></button></div></div>
+      <div class="document-grid" id="document-grid" aria-live="polite" aria-busy="false"></div>
+      <div class="empty-state" id="empty-state" hidden><span class="empty-icon" aria-hidden="true">⌕</span><h3 id="empty-title">Ainda não encontramos esse PDF</h3><p id="empty-copy">Tente outras palavras ou explore uma categoria.</p><button class="button button-secondary" id="clear-search">Limpar busca</button></div>
+      <div class="section-footer"><span>Uma biblioteca que cresce junto com você.</span><button class="text-link" id="upload-inline">Tem um PDF para compartilhar? Envie por aqui <span aria-hidden="true">→</span></button></div>
+    </section>
+  </main>
+
+  <footer class="footer"><a class="brand footer-brand" href="#inicio"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 36"><path d="M7 2h12l8 8v23H7a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3Z"/><path d="M19 2v8h8M10 17h13M10 22h13M10 27h9"/></svg></span><span>Facilita<span class="brand-red">PDFS</span></span></a><p>Encontre. Aprenda. Compartilhe.</p><span class="footer-note">Um projeto feito para facilitar o acesso à informação.</span></footer>
+
+  <dialog class="viewer-dialog" id="viewer-dialog" aria-labelledby="viewer-title">
+    <div class="viewer-top"><button class="icon-button" id="close-viewer" aria-label="Fechar visualização">×</button><span class="viewer-file-type">DOCUMENTO PDF</span></div>
+    <div class="viewer-layout"><aside class="viewer-sidebar"><p class="eyebrow section-eyebrow">PRÉ-VISUALIZAÇÃO</p><h2 id="viewer-title"></h2><p id="viewer-description"></p><div class="viewer-meta"><span id="viewer-category"></span><span id="viewer-size"></span></div><button id="viewer-download" class="button button-primary full-button">↓&nbsp; Baixar PDF</button><button id="viewer-favorite" class="button button-secondary full-button">♡&nbsp; Salvar nos favoritos</button><p class="viewer-hint">Este é um documento de demonstração do MVP.</p></aside><div class="paper-stage"><article class="paper" id="paper-content"></article></div></div>
+  </dialog>
+
+  <dialog class="upload-dialog" id="upload-dialog" aria-labelledby="upload-title">
+    <div class="upload-dialog-head"><div><p class="eyebrow section-eyebrow">COMPARTILHE CONHECIMENTO</p><h2 id="upload-title">Envie um documento</h2></div><button class="icon-button" id="close-upload" aria-label="Fechar formulário">×</button></div>
+    <p class="upload-description">Adicione um PDF à sua biblioteca local para encontrá-lo e visualizá-lo neste dispositivo.</p>
+    <form id="upload-form"><label class="upload-drop" for="upload-file"><span class="upload-cloud" aria-hidden="true">↑</span><strong>Escolha um arquivo PDF</strong><span>ou arraste para esta área · máximo 10 MB</span><input id="upload-file" type="file" accept="application/pdf,.pdf" required><span id="selected-file" class="selected-file">Nenhum arquivo selecionado</span></label><label class="field-label" for="upload-title-input">Título do documento</label><input class="text-input" id="upload-title-input" name="title" maxlength="80" placeholder="Ex.: Guia de estudos" required><label class="field-label" for="upload-category">Categoria</label><select class="text-input" id="upload-category" name="category"></select><p class="upload-error" id="upload-error" role="alert" hidden></p><button class="button button-primary full-button" type="submit">Adicionar à biblioteca</button></form>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
